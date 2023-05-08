@@ -32,36 +32,33 @@ class MyPair {
 }
 
 public class Task1 {
-    public static void main(String[] args) {
-        int figure = 5;
-        ArrayList<Integer> arr = new ArrayList<>();
 
-        arr.add(3);
-        arr.add(2);
-        arr.add(1);
-        arr.add(4);
-        arr.add(8);
-        arr.add(5);
-        arr.add(0);
+    public static MyPair findSum(int[] nums, int target) {
 
-        System.out.println(arr);
+        Map<Integer, Integer> valueIndexMap = new HashMap();
 
-        HashMap<Integer, Integer> hm = new HashMap<>();
-        for(int i = 0; i < arr.size(); i++) {
-            hm.put(arr.get(i), i);
-        }
+        for(int i = 0; i < nums.length; i++) {
+            int diff = target - nums[i];
 
-        System.out.println("Индексы элементов с сумме дающие " + figure);
-
-        ArrayList<MyPair> res = new ArrayList<>();
-        Set<Integer> na = new HashSet<>(arr);
-        for (Integer curr : na) {
-            Integer diff = hm.get(figure - curr);
-            if (diff != null) {
-                res.add(new MyPair(hm.get(curr), diff));
-                hm.remove(curr);
+            Integer candidate = valueIndexMap.get(diff);
+            if (candidate != null) {
+                return new MyPair(i, candidate);
             }
+
+            valueIndexMap.put(nums[i], i);
         }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        int target = 12;
+        int[] array = {8, 5, 4, 3, 7, 2};
+
+        System.out.println(Arrays.toString(array));
+        System.out.println("Индексы элементов с сумме дающие " + target);
+
+        MyPair res = findSum(array, target);
+
         System.out.println(res);
     }
 }
